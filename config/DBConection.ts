@@ -38,7 +38,7 @@ class DBConection implements IDBConection {
                 host: this.host,
                 port: this.port,
                 dialect: 'mysql',
-                logging: console.log,
+                //logging: console.log,
             }
         )
     }
