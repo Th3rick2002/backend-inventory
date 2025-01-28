@@ -83,13 +83,13 @@ class UserController{
     async getUserById(req: Request, res: Response){
         try{
             const {id} = req.params
-            const usersData = await User.findOne({
-                attributes: ['firstName','lastName', 'email'],
+            const userData = await User.findOne({
+                attributes: ['idUser', 'firstName','lastName', 'email'],
                 where: {idUser: id}
             })
             res.status(200).json({
                 status: true,
-                usersData,
+                userData,
                 message: "User found",
             })
         }catch(err){
@@ -98,11 +98,55 @@ class UserController{
     }
 
     async getListUser(req: Request, res: Response){
+        try{
+            const usersData = await User.findAll({
+                attributes: ['idUser', 'firstName','lastName', 'email'],
+            })
 
+            res.status(200).json({
+                status: true,
+                usersData,
+                message: "Users found",
+            })
+        }catch (e) {
+            res.status(404).json({status: false ,message:"Users no found"})
+        }
     }
 
     async updateUserById(req: Request, res: Response){
+        try{
+            const {id} = req.params
+            const {firstName, lastName, email, password} = req.body
+            const userData = await User.findOne({
+                where: {idUser: id},
+            })
 
+            if(!userData){
+                res.status(403).json({message:"User not found"})
+            }
+
+            let updateUser = {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
+            }
+
+
+            updateUser.password = await bcrypt.hash(password, 10)
+            await User.update(
+                updateUser,
+                {where: {idUser: id}},
+            )
+
+            res.status(200).json({
+                status: true,
+                message: "User updated successfully",
+            })
+
+        }catch (e) {
+            res.status(500).json({status: false ,message:"User not updated", error: e})
+        }
     }
 
     async deleteUserById(req: Request, res: Response){

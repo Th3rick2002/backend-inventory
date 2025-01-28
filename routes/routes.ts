@@ -10,5 +10,7 @@ router.post('/auth/public/login', userController.login)
 
 // Private endpoints
 router.get('/private/user-id/:id', authenticate, userController.getUserById)
+router.get('/private/user-list/', authenticate, userController.getListUser)
+router.put('/private/update-user/:id', authenticate, userController.updateUserById)
 
 export default router;

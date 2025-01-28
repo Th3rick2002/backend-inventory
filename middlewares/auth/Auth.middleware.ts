@@ -14,7 +14,6 @@ const authenticate = (req: Authentication, res: Response, next: NextFunction) =>
             return;
         }
 
-        //let token = req.headers.authorization.replace(/['"]+/g, '')
         let token = req.headers.authorization.split(' ')[1];
         if(!jwtSecret){
             res.status(401).json({message:"JWT_SECRET no defined", status:false});
