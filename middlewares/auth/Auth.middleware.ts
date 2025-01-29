@@ -21,13 +21,13 @@ const authenticate = (req: Authentication, res: Response, next: NextFunction) =>
         }
         let payload = jwt.decode(token, jwtSecret)
         if(payload.exp < moment().unix()){
-            res.status(401).json({message:"Token has expired", status:false});
+            res.status(500).json({message:"Token has expired", status:false});
             return;
         }
         req.user = payload;
         next()
     }catch(err){
-        res.status(401).json({message:"Unauthorized", status:false, error:err});
+        res.status(401).json({message:"Invalid token", status:false, error:err});
     }
 }
 

@@ -6,7 +6,7 @@ import {Auth} from "../../services/auth/jwt.service";
 class UserController{
     async userRegister(req: Request, res: Response){
         try{
-            const {firstName, lastName, email, password} = req.body;
+            const {firstName, lastName, email, password, role} = req.body;
 
             const userFind = await User.findOne({where: {email}})
             if(userFind){
@@ -19,7 +19,7 @@ class UserController{
                 lastName: lastName,
                 email: email,
                 password: password,
-                role: "user",
+                role: role,
             }
 
             newUser.password = await bcrypt.hash(password, 10);
@@ -35,7 +35,6 @@ class UserController{
             })
         }
     }
-
 
     async login(req: Request, res: Response){
         try{
@@ -84,7 +83,7 @@ class UserController{
         try{
             const {id} = req.params
             const userData = await User.findOne({
-                attributes: ['idUser', 'firstName','lastName', 'email'],
+                attributes: ['idUser', 'firstName','lastName', 'email', 'role'],
                 where: {idUser: id}
             })
             res.status(200).json({
@@ -100,7 +99,7 @@ class UserController{
     async getListUser(req: Request, res: Response){
         try{
             const usersData = await User.findAll({
-                attributes: ['idUser', 'firstName','lastName', 'email'],
+                attributes: ['idUser', 'firstName','lastName', 'email', 'role'],
             })
 
             res.status(200).json({
@@ -116,7 +115,7 @@ class UserController{
     async updateUserById(req: Request, res: Response){
         try{
             const {id} = req.params
-            const {firstName, lastName, email, password} = req.body
+            const {firstName, lastName, email, password, role} = req.body
             const userData = await User.findOne({
                 where: {idUser: id},
             })
@@ -130,8 +129,8 @@ class UserController{
                 lastName: lastName,
                 email: email,
                 password: password,
+                role: role
             }
-
 
             updateUser.password = await bcrypt.hash(password, 10)
             await User.update(
@@ -150,7 +149,30 @@ class UserController{
     }
 
     async deleteUserById(req: Request, res: Response){
+        try{
+            const {id} = req.params
+            const user = await User.destroy({
+                where: {idUser: id}
+            })
 
+            if(user === 0){
+                res.status(404).json({
+                    status: false,
+                    message:"User not found"
+                })
+            }
+
+            res.status(200).json({
+                status: true,
+                message: "User deleted successfully",
+                deleteCount: user
+            })
+        }catch (e) {
+            res.status(500).json({
+                status: false ,
+                message:"User deleted failed",
+                error: e})
+        }
     }
 }
 
