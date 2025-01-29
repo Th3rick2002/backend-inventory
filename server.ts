@@ -1,15 +1,16 @@
 import express from "express";
 import instanceDB from "./config/DBConection";
-import router from "./routes/routes";
-//import {Sequelize} from "sequelize";
+import userRouter from "./routes/user.routes";
+import providerRouter from "./routes/Provider.routes";
+
 import {Category, Product, Provider, Sale_details, Sale, User} from "./models/associations/associations"
 
 const app = express();
 const port = process.env.PORT || 3000;
-//const sequelize: Sequelize = instanceDB.getSequelizeInstance()
 
 app.use(express.json());
-app.use('/api', router);
+app.use('/api/user', userRouter);
+app.use('/api/provider', providerRouter);
 
 const testConnectionDB = async () => {
     try
@@ -23,7 +24,6 @@ const testConnectionDB = async () => {
 
 const syncModel = async () => {
     try{
-        //await sequelize.sync({force: true});
         await User.sync({alter: true});
         await Category.sync({alter:true});
         await Provider.sync({alter:true});
@@ -31,13 +31,6 @@ const syncModel = async () => {
         await Sale.sync({alter:true});
         await Sale_details.sync({alter:true});
 
-        //await sequelize.getQueryInterface().showAllTables()
-        //    .then(tables => {
-        //        console.log(`Tables: ${tables}`);
-        //    })
-        //    .catch(err => {
-        //        console.log(`Error fetching tables: ${err}`);
-        //    })
         console.log("all models synchronized successfully.");
 
     }catch (e){
