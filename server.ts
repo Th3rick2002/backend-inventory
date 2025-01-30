@@ -3,8 +3,9 @@ import instanceDB from "./config/DBConection";
 import userRouter from "./routes/user.routes";
 import providerRouter from "./routes/Provider.routes";
 import categoryRoutes from "./routes/Category.routes";
-
+import ProductRoutes from "./routes/Product.routes";
 import {Category, Product, Provider, Sale_details, Sale, User} from "./models/associations/associations"
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use('/api/user', userRouter);
 app.use('/api/provider', providerRouter);
 app.use('/api/category', categoryRoutes);
+app.use('/api/Product', ProductRoutes)
 
 
 const testConnectionDB = async () => {
@@ -47,5 +49,5 @@ export function startServer(){
     })
 
     //testConnectionDB()
-    //syncModel()
+    syncModel()
 }

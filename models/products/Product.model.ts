@@ -29,10 +29,18 @@ export const Product = instanceDB.getSequelizeInstance().define<IProduct>(
         idCategory: {
             type: DataTypes.INTEGER,
             allowNull: true,
+            references: {
+                model: 'categories',
+                key: 'idCategory',
+            }
         },
         idProvider: {
             type: DataTypes.INTEGER,
             allowNull: true,
+            references: {
+                model: 'providers',
+                key: 'idProvider',
+            }
         }
     },
     {
