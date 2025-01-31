@@ -1,7 +1,10 @@
-import {IProduct} from "../../models/products/Product.interface";
-import {IProductValidation} from "./IProductValidation.interface";
-
 export class ProductValidations {
+    static validationId(id: number){
+        if (!id || id <= 0){
+            throw new Error('id must be a positive integer');
+        }
+    }
+
     static validationName(name: string): void{
         if(!name || name.trim() === '' ){
             throw new Error('The property "name" is required and cannot be empty');
@@ -38,12 +41,12 @@ export class ProductValidations {
         }
     }
 
-    static validationProduct(product: IProductValidation): void{
-        this.validationName(product.name);
-        this.validationDescription(product.description);
-        this.validationPrice(product.price);
-        this.validationStock(product.stock);
-        this.validationIdCategory(product.idCategory);
-        this.validationIdProvider(product.idProvider);
+    static validationProduct(name: string, description: string, price: number, stock: number, idCategory: number, idProvider: number): void{
+        this.validationName(name);
+        this.validationDescription(description);
+        this.validationPrice(price);
+        this.validationStock(stock);
+        this.validationIdCategory(idCategory);
+        this.validationIdProvider(idProvider);
     }
 }

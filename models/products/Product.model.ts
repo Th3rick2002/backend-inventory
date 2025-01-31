@@ -19,7 +19,7 @@ export const Product = instanceDB.getSequelizeInstance().define<IProduct>(
             allowNull: true,
         },
         price: {
-            type: DataTypes.DECIMAL,
+            type: DataTypes.FLOAT,
             allowNull: true,
         },
         stock: {

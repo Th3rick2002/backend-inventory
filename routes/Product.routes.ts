@@ -6,8 +6,13 @@ import productConstroller from "../controllers/ProductControlles/ProductConstrol
 
 const productRoutes = Router();
 
+//public routes
+productRoutes.get('/public/products/', authenticate, productConstroller.getProducts)
+productRoutes.get('/public/products-id/:id', authenticate, productConstroller.getProductById)
+
 //private routes
 productRoutes.post('/private/register-product/', authenticate, isAdmin, productConstroller.registerProduct)
-
+productRoutes.put('/private/update-product/:id', authenticate, isAdmin, productConstroller.updateProduct)
+productRoutes.delete('/private/delete-product/:id', authenticate, isAdmin, productConstroller.deleteProduct)
 
 export default productRoutes;

@@ -29,7 +29,7 @@ export const Auth = (user:IUserJWT) =>{
         password: user.password,
         role: user.role,
         iat: moment().unix(),
-        exp: moment().add(1, 'hour').unix(),
+        exp: moment().add(7, 'days').unix(),
     }
 
     return jwt.encode(payload, jwtSecret);
