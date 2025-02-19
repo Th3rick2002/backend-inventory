@@ -1,4 +1,5 @@
-export interface IProductValidation {
+export interface IProductValidationInterface
+{
     name: string;
     description: string;
     price: number;
