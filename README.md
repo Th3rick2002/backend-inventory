@@ -11,6 +11,11 @@ To be able to use the project follow the following commands
  pnpm run dev
 ```
 
+> [!NOTE]
+> if you cannot use pnpm, use npm, yarm or bun
+
+
+
 ## Endpoints
 
 - Category
